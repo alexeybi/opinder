@@ -1,10 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
-    app:startDestination="@id/rootLayout">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/titleFragment">
 
     <fragment
-        android:id="@+id/rootLayout"
+        android:id="@+id/titleFragment"
         android:name="com.example.opinder.TitleFragment"
-        android:label="TitleFragment" />
+        android:label="TitleFragment"
+        tools:layout="@layout/fragment_title">
+        <action
+            android:id="@+id/action_rootLayout_to_noOpinsFragment"
+            app:destination="@id/noOpinsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noOpinsFragment"
+        android:name="com.example.opinder.screens.no_opins.NoOpinsFragment"
+        android:label="NoOpinsFragment"
+        tools:layout="@layout/fragment_noopins" >
+        <action
+            android:id="@+id/action_noOpinsFragment_to_resultsFragment"
+            app:destination="@id/resultsFragment" />
+        <action
+            android:id="@+id/action_noOpinsFragment_to_titleFragment"
+            app:destination="@id/titleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultsFragment"
+        android:name="com.example.opinder.screens.results.ResultsFragment"
+        android:label="ResultsFragment"
+        tools:layout="@layout/fragment_results" />
 </navigation>

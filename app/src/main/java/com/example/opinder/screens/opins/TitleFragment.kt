@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import com.example.opinder.screens.opins.TitleFragmentViewModel
 import com.example.opinder.databinding.FragmentTitleBinding
 
@@ -29,49 +29,35 @@ class TitleFragment : Fragment() {
 
             viewModel = ViewModelProviders.of(this).get(TitleFragmentViewModel::class.java)
 
-            binding.disagreeButton.setOnClickListener{
-                viewModel.onDisagree()
-                //TODO  update screen on disagree actions
-            }
+            binding.titleFragmentViewModel = viewModel
+            binding.lifecycleOwner = this
 
-            binding.neutralButton.setOnClickListener{
-                viewModel.onNeutral()
-                //TODO updatea screen on neutral actions
-            }
-
-            binding.agreeButton.setOnClickListener{
-                viewModel.onAgree()
-                //TODO update screen on agree actions
-            }
+//            viewModel.eventNoOpins.observe(this, Observer { hasNoOpins ->
+//                if (hasNoOpins) {
+//                    val result = viewModel.votingResul.value ?: 0
+//                    val action = TitleFragmentDirections.actionTitleTo
+//                    noOpins()
+//                }
+//            })
 
 
-            private fun noOpins() {
-                val disagreeStatResult = viewModel.disagreeStat.value ?: 0
-                val neutralStatResult = viewModel.neutralStat.value ?: 0
-                val agreeStatResult = viewModel.agreeStat.value ?: 0
-
-                val action = TitleFragmentDirections.actionStatResults()
-                Navigation.findNavController(this).
 
 
-            }
-
-
-            viewModel.disagreeStat.observe(this, Obeserver { addDisagreeStat ->
-                //TODO imlement text result in layout
-                binding.disagreeTextResult.text = addDisagreeStat.toString()
-
-            })
-
-            viewModel.neutralStat.observe(this, Obeserver{ addNeutralStat ->
-                //TODO imlement text result in layout
-                binding.neutralTextStat.text = addNeutralStat.toString()
-            })
-
-            viewModel.agreeStat.observe(this, Observer{ addAgreeStat ->
-                //TODO imlement text result in layout
-                binding.agreeTextStat.text = addAgreeStat.toString()
-            })
+//            viewModel.disagreeStat.observe(this, Obeserver { addDisagreeStat ->
+//                //TODO imlement text result in layout
+////                binding.disagreeTextResult.text = addDisagreeStat.toString()
+//
+//            })
+//
+//            viewModel.neutralStat.observe(this, Obeserver{ addNeutralStat ->
+//                //TODO imlement text result in layout
+////                binding.neutralTextStat.text = addNeutralStat.toString()
+//            })
+//
+//            viewModel.agreeStat.observe(this, Observer{ addAgreeStat ->
+//                //TODO imlement text result in layout
+////                binding.agreeTextStat.text = addAgreeStat.toString()
+//            })
 
 
 
