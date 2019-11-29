@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".screens.no_opins.NoOpinsFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="noOpinsFragmentViewModel"
-            type="com.example.opinder.screens." />
+            type="com.example.opinder.screens.no_opins.NoOpinsFragmentViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        tools:context=".screens.no_opins.NoOpinsFragment"
         android:id="@+id/noOpinsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
