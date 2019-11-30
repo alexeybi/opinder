@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.example.opinder.databinding.FragmentTitleBinding
 import com.example.opinder.screens.opins.TitleFragmentViewModel
 
@@ -24,13 +26,13 @@ class TitleFragment : Fragment() {
 
         binding.titleFragmentViewModel = viewModel
 
-//          viewModel.eventNoOpins.observe(this, Observer { hasNoOpins ->
-//                if (hasNoOpins) {
-//                    val result = viewModel.votingResul.value ?: 0
-//                    val action = TitleFragmentDirections.actionTitleTo
-//                    noOpins()
-//                }
-//          })
+        //Event listener to navigate to results when voted on all cards
+        viewModel.noCardsLeft.observe(this, Observer { hasNoCards->
+            if (hasNoCards) {
+                this.findNavController().navigate(R.id.action_titleFragment_to_noOpinsFragment)
+                viewModel.onNoCardsLeft()
+            }
+      })
         return binding.root
     }
 }

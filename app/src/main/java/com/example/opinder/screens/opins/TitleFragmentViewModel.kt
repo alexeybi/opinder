@@ -3,6 +3,7 @@ package com.example.opinder.screens.opins
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.Navigation.findNavController
 import com.example.opinder.network.OpinderApi
 import com.example.opinder.network.OpinderApiProperties
 import kotlinx.coroutines.CoroutineScope
@@ -13,22 +14,7 @@ import java.lang.Exception
 
 class TitleFragmentViewModel: ViewModel() {
 
-//    private val _eventNoOpins = MutableLiveData<Boolean>()
-//    val eventNoOpins: LiveData<Boolean>
-//        get() = _eventNoOpins
-//
-//    //Statistics for voting
-//    private val _disagreeStat = MutableLiveData<Int>()
-//    val disagreeStat : LiveData<Int>
-//        get() = _disagreeStat
-//
-//    private val _neutralStat = MutableLiveData<Int>()
-//    val neutralStat : LiveData<Int>
-//        get() = _neutralStat
-//
-//    private val _agreeStat = MutableLiveData<Int>()
-//    val agreeStat : LiveData<Int>
-//        get() = _agreeStat
+    private var cardIndex: Int
 
     private val _apiResponseStatus = MutableLiveData<String>()
     val apiResponseStatus:  LiveData<String>
@@ -42,28 +28,31 @@ class TitleFragmentViewModel: ViewModel() {
     val card: LiveData<OpinderApiProperties>
         get() = _card
 
-//    private fun nextOpin() {
-//        if(opinsList.isEmpty()){
-//            _eventNoOpins.value = true
-//        } else {
-//            _opin.value = _opinsList.removeAt(0)
-//        }
-//    }
+    private val _cardsListSize = MutableLiveData<Int>()
+    val cardsListSize: LiveData<Int>
+        get() = _cardsListSize
+
+    private val _noCardsLeft = MutableLiveData<Boolean>()
+    val noCardsLeft: LiveData<Boolean>
+        get() = _noCardsLeft
+
+
     //Create coroutine scope which runs using the Main dispatcher
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     init {
         getAllCards()
+        cardIndex = 0
     }
 
     private fun getAllCards() {
         coroutineScope.launch {
-            var getCardsDeferred = OpinderApi.retrofitService.getOpins()
+            var getAllCardsDeferred = OpinderApi.retrofitService.getCards()
             try {
                 //Await the completion of the retrofit request
-                var listResult = getCardsDeferred.await()
-                _apiResponseStatus.value = "Success: ${listResult.size} Opins retrieved"
+                var listResult = getAllCardsDeferred.await()
+                _cardsListSize.value = listResult.size
                 if (listResult.size > 0) {
                     _allCards.value = listResult
                     _card.value = listResult[0]
@@ -74,21 +63,29 @@ class TitleFragmentViewModel: ViewModel() {
         }
     }
 
+    private fun nextCard() {
+        if (cardIndex >= _cardsListSize.value!!) {
+            _noCardsLeft.value = true
+        } else
+            cardIndex += 1
+        _card.value = _allCards.value?.elementAt(cardIndex - 1)
+    }
 
-//    fun onNoOpinsComplete() {
-//        _eventNoOpins.value = false
-//    }
 
     fun onDisagree() {
-//        nextOpin()
+        nextCard()
     }
 
     fun onNeutral() {
-//        nextOpin()
+        nextCard()
     }
 
     fun onAgree() {
-//        nextOpin()
+        nextCard()
+    }
+
+    fun onNoCardsLeft() {
+        _noCardsLeft.value = false
     }
 
     //Cancel coroutine job when onCleared triggered in ViewModel

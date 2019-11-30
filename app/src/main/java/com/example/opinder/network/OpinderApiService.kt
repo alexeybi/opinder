@@ -25,7 +25,7 @@ private val retrofit = Retrofit.Builder()
 //OpinderApiService with different requests
 interface OpinderApiService {
     @GET("all-cards")
-    fun getOpins(): Deferred<List<OpinderApiProperties>>
+    fun getCards(): Deferred<List<OpinderApiProperties>>
 }
 
 //create the API object with Retrofit to implement OpinderApiService
