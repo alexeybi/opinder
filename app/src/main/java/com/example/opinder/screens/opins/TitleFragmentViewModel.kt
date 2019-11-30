@@ -34,6 +34,10 @@ class TitleFragmentViewModel: ViewModel() {
     val apiResponseStatus:  LiveData<String>
         get() = _apiResponseStatus
 
+    private val _allCards = MutableLiveData<List<OpinderApiProperties>>()
+    val allCards: LiveData<List<OpinderApiProperties>>
+        get() = _allCards
+
     private val _card = MutableLiveData<OpinderApiProperties>()
     val card: LiveData<OpinderApiProperties>
         get() = _card
@@ -61,6 +65,7 @@ class TitleFragmentViewModel: ViewModel() {
                 var listResult = getCardsDeferred.await()
                 _apiResponseStatus.value = "Success: ${listResult.size} Opins retrieved"
                 if (listResult.size > 0) {
+                    _allCards.value = listResult
                     _card.value = listResult[0]
                 }
             } catch (e: Exception) {
