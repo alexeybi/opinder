@@ -4,9 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.opinder.network.OpinderApi
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.opinder.network.OpinderApiProperties
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class TitleFragmentViewModel: ViewModel() {
 
@@ -27,9 +30,13 @@ class TitleFragmentViewModel: ViewModel() {
 //    val agreeStat : LiveData<Int>
 //        get() = _agreeStat
 
-    private val _apiResponse = MutableLiveData<String>()
-    val apiResponse:  LiveData<String>
-        get() = _apiResponse
+    private val _apiResponseStatus = MutableLiveData<String>()
+    val apiResponseStatus:  LiveData<String>
+        get() = _apiResponseStatus
+
+    private val _card = MutableLiveData<OpinderApiProperties>()
+    val card: LiveData<OpinderApiProperties>
+        get() = _card
 
 //    private fun nextOpin() {
 //        if(opinsList.isEmpty()){
@@ -38,27 +45,30 @@ class TitleFragmentViewModel: ViewModel() {
 //            _opin.value = _opinsList.removeAt(0)
 //        }
 //    }
+    //Create coroutine scope which runs using the Main dispatcher
+    private val viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     init {
         getAllCards()
     }
 
     private fun getAllCards() {
-        OpinderApi.retrofitService.getOpins().enqueue(object: Callback<String> {
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                _apiResponse.value = "Failure: " + t.message
+        coroutineScope.launch {
+            var getCardsDeferred = OpinderApi.retrofitService.getOpins()
+            try {
+                //Await the completion of the retrofit request
+                var listResult = getCardsDeferred.await()
+                _apiResponseStatus.value = "Success: ${listResult.size} Opins retrieved"
+                if (listResult.size > 0) {
+                    _card.value = listResult[0]
+                }
+            } catch (e: Exception) {
+                _apiResponseStatus.value = "Failure: ${e.message}"
             }
-
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                _apiResponse.value = response.body()
-            }
-        })
+        }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        //TODO on clared action
-    }
 
 //    fun onNoOpinsComplete() {
 //        _eventNoOpins.value = false
@@ -74,5 +84,11 @@ class TitleFragmentViewModel: ViewModel() {
 
     fun onAgree() {
 //        nextOpin()
+    }
+
+    //Cancel coroutine job when onCleared triggered in ViewModel
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }
