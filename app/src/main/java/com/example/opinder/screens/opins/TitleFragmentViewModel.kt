@@ -3,7 +3,6 @@ package com.example.opinder.screens.opins
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation.findNavController
 import com.example.opinder.network.OpinderApi
 import com.example.opinder.network.OpinderApiProperties
 import kotlinx.coroutines.CoroutineScope
@@ -64,11 +63,11 @@ class TitleFragmentViewModel: ViewModel() {
     }
 
     private fun nextCard() {
-        if (cardIndex >= _cardsListSize.value!!) {
+        if (cardIndex >= _cardsListSize.value!! - 1) {
             _noCardsLeft.value = true
         } else
             cardIndex += 1
-        _card.value = _allCards.value?.elementAt(cardIndex - 1)
+        _card.value = _allCards.value?.elementAt(cardIndex)
     }
 
 

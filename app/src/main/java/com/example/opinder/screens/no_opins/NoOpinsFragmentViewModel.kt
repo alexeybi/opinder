@@ -1,12 +1,24 @@
 package com.example.opinder.screens.no_opins
 
-
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.fragment.NavHostFragment.findNavController
 
 class NoOpinsFragmentViewModel : ViewModel() {
 
+    private val _voted = MutableLiveData<Boolean>()
+    val voted: LiveData<Boolean>
+        get() = _voted
 
-//    private fun onVoteAgain(): ViewModel() {
-//    }
+    init {
+        _voted.value = false
+    }
+
+    fun onHasVoted() {
+        _voted.value = true
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+    }
 }

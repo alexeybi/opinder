@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import com.example.opinder.R
 import com.example.opinder.databinding.FragmentResultsBinding
+import kotlinx.android.synthetic.main.fragment_noopins.*
 
 class ResultsFragment : Fragment() {
 
@@ -26,9 +28,6 @@ class ResultsFragment : Fragment() {
         binding.setLifecycleOwner(this)
 
         binding.resultsFragmentViewModel = viewModel
-
-
-
 
         return binding.root
     }

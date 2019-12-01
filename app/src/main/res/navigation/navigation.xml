@@ -33,9 +33,6 @@
         <action
             android:id="@+id/action_noOpinsFragment_to_resultsFragment"
             app:destination="@id/resultsFragment" />
-        <action
-            android:id="@+id/action_noOpinsFragment_to_titleFragment"
-            app:destination="@id/titleFragment" />
     </fragment>
     <fragment
         android:id="@+id/opinFragment"

@@ -20,7 +20,6 @@
             android:layout_width="221dp"
             android:layout_height="151dp"
             android:layout_marginTop="165dp"
-            android:contentDescription="TODO"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -54,6 +53,7 @@
 
         <Button
             android:id="@+id/resultsButton"
+            android:onClick="@{() -> noOpinsFragmentViewModel.onHasVoted()}"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
