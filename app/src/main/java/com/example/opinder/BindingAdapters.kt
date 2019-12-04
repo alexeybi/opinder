@@ -15,8 +15,6 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<OpinderApiProperties
     adapter.submitList(data)
 }
 
-
-
 @BindingAdapter("imageUrl")
 fun bindImage(imageView: ImageView, imageId: String?) {
     imageId?.let {
@@ -25,7 +23,7 @@ fun bindImage(imageView: ImageView, imageId: String?) {
         Glide.with(imageView.context)
             .load(imageUri)
             .apply(RequestOptions().placeholder(R.drawable.loading_animation)
-                .error(R.drawable.broken_image))
+            .error(R.drawable.broken_image))
             .into(imageView)
     }
 }

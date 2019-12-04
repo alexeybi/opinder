@@ -12,19 +12,12 @@
         <action
             android:id="@+id/action_titleFragment_to_noOpinsFragment"
             app:destination="@id/noOpinsFragment" />
-        <action
-            android:id="@+id/action_titleFragment_to_opinFragment"
-            app:destination="@id/opinFragment" />
     </fragment>
     <fragment
         android:id="@+id/resultsFragment"
         android:name="com.example.opinder.screens.results.ResultsFragment"
         android:label="ResultsFragment"
-        tools:layout="@layout/fragment_results">
-        <action
-            android:id="@+id/action_resultsFragment_to_titleFragment"
-            app:destination="@id/titleFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_results"/>
     <fragment
         android:id="@+id/noOpinsFragment"
         android:name="com.example.opinder.screens.no_opins.NoOpinsFragment"
@@ -32,15 +25,9 @@
         tools:layout="@layout/fragment_noopins">
         <action
             android:id="@+id/action_noOpinsFragment_to_resultsFragment"
-            app:destination="@id/resultsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/opinFragment"
-        android:name="com.example.opinder.screens.opins.OpinFragment"
-        android:label="fragment_opin"
-        tools:layout="@layout/fragment_opin" >
-        <action
-            android:id="@+id/action_opinFragment_to_titleFragment"
-            app:destination="@id/titleFragment" />
+            app:destination="@id/resultsFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@+id/noOpinsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
